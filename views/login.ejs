@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="shortcut icon" type="png" href="image/icon/headlogo.png">
+	<title>Login SignUp</title>
+	<link rel="stylesheet" type="text/css" href="loginStyle.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<!-- <script>
+		function checkPassword(){
+			let password=document.getElementById("password").value;
+			let cnfrmPassword=document.getElementById("cnfrm-password").value;
+			console.log(password,cnfrmPassword);
+			let message= document.getElementById("message");
+			if(password.length !=0){
+				if(password == cnfrmPassword){
+					alert("Password match");
+					message.style.backgroundColor="#3ae374";
+				}
+				else{
+					alert("Password didn't match");
+					message.style.backgroundColor="#3ae374";
+				}
+			}else{
+				alert("Fields can't be empty")
+				message.style.backgroundColor="#3ae374";
+			}
+		}
+	</script> -->
+
+
+  <!-- It will redirect to the Home Page after submitting the form -->
+  <script>
+  $(document).ready(function(){
+    $("form").submit(function(){
+    });
+  });
+  </script>
+
+</head>
+<body>
+		<div class="form-box">
+			<div class="button-box">
+				<div id="btn"></div>
+				<button type="button" class="toggle-btn" id="log" onclick="login()" style="color: #fff;">Log In</button>
+				<button type="button" class="toggle-btn" id="reg" onclick="register()">Register</button>
+			</div>
+			<div class="social-icons">
+				<img src="image/icon/fb2.png">
+				<img src="image/icon/insta2.png">
+				<img src="image/icon/tt2.png">
+			</div>
+			
+
+			<!-- Login Form -->
+			<form id="login" class="input-group" method="post" action="/student">
+				<div class="inp">
+					<img src="image/icon/user.png"><input type="text" id="email" class="input-field" name = "email" placeholder="Username or Phone Number" style="width: 88%; border:none;" required="required">
+				</div>
+				<div class="inp">
+					<img src="image/icon/password.png"><input type="password" required id="password" class="input-field" name = "password" placeholder="Password" style="width: 88%; border: none;" required="required">
+				</div>
+				<input type="checkbox" class="check-box">Remember Password
+				<button type="submit" class="submit-btn">Log In</button>
+				<br>
+				<div>
+					<center style="color: red;"><%= locals.errlogin||''%></center>
+				</div>
+				
+			</form>
+
+
+			<div class="other" id="other">
+				<div class="instead">
+					<br>
+					<h3>or</h3>
+				</div>
+				<button class="connect" onclick="google()">
+					<img src="image/icon/google.png"><span>Sign in with Google</span>
+				</button>				
+			</div>
+
+
+			<!-- Registration Form -->
+			<form id="register" class="input-group" method="post" action="/login">
+				<input type="text" class="input-field" name ="fullname" placeholder="Full Name" required="required">
+				<input type="email" class="input-field" name ="email" placeholder="Email Address" required="required">
+				<input type="password" id = "password" class="input-field" name = "password" placeholder="Create Password" name="psame" required="required">
+				<input type="checkbox" class="check-box" id="chkAgree" onclick="goFurther()">I agree to the Terms & Conditions
+				<br>
+				<div>
+					<center style="color: red;"><%= locals.errsend||''%></center>
+				</div>
+				<br>
+				<p id = "message"></p>
+				<button type="submit" id="btnSubmit" onclick = "checkPassword()" class="submit-btn reg-btn">Register</button>
+			</form>
+			
+			
+		</div>
+		<script type="text/javascript" src="main.js"></script>
+</body>
+</html>
