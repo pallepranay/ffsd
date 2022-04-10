@@ -25,7 +25,7 @@ const dbURI = 'mongodb+srv://pranay:nothing1234@nodetuts.ygp7w.mongodb.net/nodet
 mongoose.connect(dbURI, {useNewUrlParser: true, useUnifiedTopology: true})
 .then((result)=> {
     console.log("connected to database. Successfull")
-    app.listen(3000)
+    app.listen(port = process.env.port || 3000)
 })
 .catch((err) => console.log(err))
 
