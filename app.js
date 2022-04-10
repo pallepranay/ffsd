@@ -19,7 +19,7 @@ const student = require('./models/student');
 
 // express app
 const app = express();
-const port = process.env.port || 3000
+const port = process.env.PORT || 3000
 
 // connect to MONGODB
 const dbURI = 'mongodb+srv://pranay:nothing1234@nodetuts.ygp7w.mongodb.net/nodetuts?retryWrites=true&w=majority';
