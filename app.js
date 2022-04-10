@@ -19,13 +19,14 @@ const student = require('./models/student');
 
 // express app
 const app = express();
+const port = process.env.port || 3000
 
 // connect to MONGODB
 const dbURI = 'mongodb+srv://pranay:nothing1234@nodetuts.ygp7w.mongodb.net/nodetuts?retryWrites=true&w=majority';
 mongoose.connect(dbURI, {useNewUrlParser: true, useUnifiedTopology: true})
 .then((result)=> {
     console.log("connected to database. Successfull")
-    app.listen(port = process.env.port || 3000)
+    app.listen(port)
 })
 .catch((err) => console.log(err))
 
