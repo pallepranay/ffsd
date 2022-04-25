@@ -15,7 +15,8 @@ const morgan = require('morgan')
 const res = require('express/lib/response');
 const mongoose = require('mongoose')
 const Student = require('./models/student');
-const student = require('./models/student');
+const Instructor = require('./models/courseinst');
+
 
 // express app
 const app = express();
@@ -31,6 +32,12 @@ mongoose.connect(dbURI, {useNewUrlParser: true, useUnifiedTopology: true})
 .catch((err) => console.log(err))
 
 // Cart code
+const facultydata=module.require('./models/faculty.js');
+const studentdata = module.require('./models/student.js')
+
+
+
+
 
 // payment gateway
 
@@ -48,6 +55,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(morgan('dev'))
 
 var stud1 = {};
+var facty1 = {};
 
 // Signup code
 
@@ -57,15 +65,15 @@ app.post('/login', (req, res) => {
     console.log(student);
     Student.find()
         .then((result) => {
-            var temp = 0;
+            var tmp = 0;
             result.forEach(element =>{
                 if (element.email == student.email && element.password == student.password){
-                    temp+=1;
+                    tmp+=1;
                 }
             })
 
-            console.log(temp)
-            if (temp == 0){
+            console.log(tmp)
+            if (tmp == 0){
                 student.save()
                     .then((result) => {
                         console.log("new result" + result);
@@ -87,32 +95,121 @@ app.post('/login', (req, res) => {
 
 // Login code
 
-app.post('/student', (req,res) =>{
+app.post('/student', async (req,res) =>{
     const student = new Student(req.body);
     let username='';
-    Student.find()
-        .then((result) =>{
-            var temp2 = 0;
+   await Student.find()
+        .then(async (result) =>{
+            var tmp2 = 0;
             result.forEach(element =>{
                 if (element.email == student.email && element.password == student.password){
-                    temp2 +=1;
+                    tmp2 +=1;
                     result = element;
                     stud1 = element;
                     username=element.fullname;
                 }
             })
 
-            console.log(temp2)
-            if (temp2 == 0){
+            console.log(tmp2)
+            if (tmp2 == 0){
                 res.render("login", {errlogin: 'no defined user'});
             }
             else{
-                console.log("data is"+stud1)
-                res.render('student',{result:stud1,user_name:username});
-                res.render('./course_inner/course6',{result:stud1,usr_name:username});
+
+               await  facultydata.find()
+                .then((resu)=>{
+                    console.log(resu);
+                    // console.log("data is"+stud1)
+                    res.render('student',{result:stud1,user_name:username,faculty:resu});
+                    // res.render('./course_inner/course6',{result:stud1,usr_name:username});
+                })
+                .catch((err)=>{
+                    console.log(err);
+                });
+
+                // console.log("data is"+stud1)
+                // res.render('student',{result:stud1,user_name:username});
+                // res.render('./course_inner/course6',{result:stud1,usr_name:username});
             }
         })
+        .catch((err)=>{
+            console.log(err);
+        })
 });
+
+
+// Signup code
+
+app.post('/facultylogin', (req, res) => {
+    const instructor = new Instructor(req.body);
+    console.log('new instructor');
+    console.log(instructor);
+    Instructor.find()
+        .then((result) => {
+            var tmp = 0;
+            result.forEach(element =>{
+                if (element.email == instructor.email && element.password == instructor.password){
+                    tmp+=1;
+                }
+            })
+
+            console.log(tmp)
+            if (tmp == 0){
+                instructor.save()
+                    .then((result) => {
+                        console.log("new result" + result);
+                        facty1 = result;
+                        res.render('facultylogin',{result});
+                    })
+
+                    .catch((err) =>{
+                        console.log(err);
+                    })
+            }
+            else
+            res.render("facultylogin", {errsend: 'An User Already exits with this email'});
+            console.log('An User Already exits with this email');
+            
+        })
+});
+
+
+// Login code
+
+app.post('/temp2', async (req,res) =>{
+
+    const instructor = new Instructor(req.body);
+    let username='';
+   await Instructor.find()
+        .then(async (result) =>{
+            var tmp2 = 0;
+            result.forEach(element =>{
+                if (element.email == instructor.email && element.password == instructor.password){
+                    tmp2 +=1;
+                    result = element;
+                    facty1 = element;
+                    username=element.fullname;
+                }
+            })
+
+            console.log(tmp2)
+            if (tmp2 == 0){
+                res.render("facultylogin", {errlogin: 'no defined user'});
+            }
+            else{
+                res.render('temp')
+
+                console.log("data is"+facty1)
+                
+            }
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+});
+
+
+
 
 
 
@@ -138,8 +235,18 @@ app.get('/index', (req, res) => {
 
 // student
 
-app.get('/student', (req, res)=>{
-    res.render('student')
+app.get('/student', async (req, res)=>{
+
+    // await  facultydata.find()
+    //             .then((resu)=>{
+    //                 console.log(resu);
+    //                 // console.log("data is"+stud1)
+    //                 res.render('student',{result:stud1,user_name:username,faculty:resu});
+    //                 // res.render('./course_inner/course6',{result:stud1,usr_name:username});
+    //             })
+    //             .catch((err)=>{
+    //                 console.log(err);
+    //             });
 })
 
 app.get('/quiz', (req,res)=>{
@@ -150,6 +257,12 @@ app.get('/aboutus', (req,res)=>{
     res.render('aboutus')
 })
 
+
+
+//checkout page
+app.get('/checkout', (req, res)=>{
+    res.render('checkout')
+})
 
 //course1
 app.get('/course_inner/course1', (req, res)=>{
@@ -202,6 +315,78 @@ app.get('/course_inner/course12', (req, res)=>{
     res.render('course_inner/course12')
 })
 
+app.get('/instructort', (req, res)=>{
+    Instructor.find().
+    then((result)=>{
+        res.render('instructort',{data:result});
+    })
+    .catch((err)=>{
+        console.log(err);
+    });
+})
+
+app.get('/tcourses', (req, res)=>{
+    facultydata.find().
+    then((result)=>{
+        res.render('tcourses',{data:result});
+    })
+    .catch((err)=>{
+        console.log(err);
+    });
+    
+})
+
+
+
+app.get('/tcourses')
+
+app.get('/user', (req, res)=>{
+    studentdata.find().
+    then((result)=>{
+        res.render('user',{data:result});
+    })
+    .catch((err)=>{
+        console.log(err);
+    });
+})
+
+app.get('/success', (req, res)=>{
+    res.render('success')
+})
+app.get('/tsales', (req, res)=>{
+    res.render('tsales')
+})
+
+app.post('/delfac/:fid', (req, res)=>{
+    facultydata.deleteOne({_id: req.params.fid})
+    .then((result)=>{
+        res.redirect('/instructort');
+    })
+    .catch((err)=>{
+        console.log(err);
+    });
+})
+
+
+app.post('/deluser/:fid', (req, res)=>{
+    studentdata.deleteOne({_id: req.params.fid})
+    .then((result)=>{
+        res.redirect('/user');
+    })
+    .catch((err)=>{
+        console.log(err);
+    });
+})
+
+
+
+
+app.get('/facultylogin', (req, res)=>{
+    res.render('facultylogin')
+})
+
+
+
 //admin page
 app.get('/admin', (req, res)=>{
     res.render('admin')
@@ -210,10 +395,33 @@ app.get('/admin', (req, res)=>{
 app.get('/adminDashboard', (req,res)=>{
     res.render('adminDashboard')
 })
+app.get('/temp',(req,res)=>{
+    res.render('temp');
+});
 
-
+app.post('/temp',async(req,res)=>{
+    //  console.log(req.body);
+    const fd=new facultydata({
+        Title:req.body.ctitle,
+        Pname:req.body.profname,
+        Price:req.body.cprice,
+        Rating:req.body.crating,
+        Desc:req.body.cdescription,
+        image:req.body.image
+    })
+    
+    fd.save()
+        .then((result)=>{
+            res.send('succuss')
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
+});
 
 // 404 page
 app.use((req, res) => {
     res.status(404).render('error')
 })
+
+

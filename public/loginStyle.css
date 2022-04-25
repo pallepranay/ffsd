@@ -129,7 +129,7 @@ body {
 }
 
 .reg-btn {
-  background: lightgray;
+  background: lightcoral;
 }
 
 .check-box {
@@ -199,15 +199,15 @@ span {
   align-items: center;
   text-align: center;
   justify-content: center;
-  border: 1px solid lightgray;
+  border: 1px solid lightcoral;
   cursor: pointer;
   outline: none;
   /*border-radius: 10px;*/
-  background: #fff3;
+  background: lightcoral;
 }
 
 .connect:hover {
-  background: #fff8;
+  background: lightcoral;
 }
 
 .connect img {

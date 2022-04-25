@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Login Portal</title>
+    <link rel="stylesheet" href="loginStyle.css">
+    
+    <style>
+        body {background-image: none;}
+    </style>
+    
+
+</head>
+<body>
+
+<div>
+    <div class = "logoinstructor" style="float: left;">
+        <img src="\image\extra\courseinstructor.jpg" alt="" width="100%" height="auto">
+    </div>
+
+      <!-- It will redirect to the Home Page after submitting the form -->
+
+          <div class="form-box">
+              <div class="button-box">
+                  <div id="btn"></div>
+                  <button type="button" class="toggle-btn" id="log" onclick="login()" style="color: #fff;">Log In</button>
+                  <button type="button" class="toggle-btn" id="reg" onclick="register()">Register</button>
+              </div>
+              <div class="social-icons">
+                  <img src="image/icon/fb2.png">
+                  <img src="image/icon/insta2.png">
+                  <img src="image/icon/tt2.png">
+              </div>
+              
+  
+              <!-- Login Form -->
+              <form id="login" class="input-group" action="/temp2" method="post" >
+                  <div class="inp">
+                      <img src="image/icon/user.png"><input type="text" id="email" class="input-field" name = "email" placeholder="Username or Phone Number" style="width: 88%; border:none;" required="required">
+                  </div>
+                  <div class="inp">
+                      <img src="image/icon/password.png"><input type="password" required id="password" class="input-field" name = "password" placeholder="Password" style="width: 88%; border: none;" required="required">
+                  </div>
+                  <input type="checkbox" class="check-box">Remember Password
+                  <button type="submit" class="submit-btn">Log In</button>
+                  <br>
+                  <div>
+                      
+                  </div>
+                  
+              </form>
+  
+  
+              <div class="other" id="other">
+                  <div class="instead">
+                      <br>
+                      <h3>or</h3>
+                  </div>
+                  <button class="connect" onclick="google()">
+                      <img src="image/icon/google.png"><span>Sign in with Google</span>
+                  </button>				
+              </div>
+  
+  
+              <!-- Registration Form -->
+              <form id="register" class="input-group" method="post" action="/facultylogin">
+                  <input type="text" class="input-field" name ="fullname" placeholder="Full Name" required="required">
+                  <input type="email" class="input-field" name ="email" placeholder="Email Address" required="required">
+                  <input type="password" id = "password" class="input-field" name = "password" placeholder="Create Password" name="psame" required="required">
+                  <input type="checkbox" class="check-box" id="chkAgree" onclick="goFurther()">I agree to the Terms & Conditions
+                  <br>
+                  <div>
+                  </div>
+                  <br>
+                  <p id = "message"></p>
+                  <button type="submit" id="btnSubmit" onclick = "checkPassword()" class="submit-btn reg-btn">Register</button>
+              </form>
+              
+              
+          </div>
+          <script type="text/javascript" src="main.js"></script>
+
+
+          <a href="/index">
+            <button style="padding: 10px 40px 10px 40px; font-size: large; margin-left: 570px;" type="submit" class="btn btn-warning">Home</button>
+            </a>
+
+</div>
+    
+</body>
+</html>

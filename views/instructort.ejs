@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users</title>
+    <link rel="stylesheet" type="text/css" href="admindbStyle.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        .accordion {
+            background-color: #FF6347;
+            color: #eee;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 20px;
+            transition: 0.4s;
+
+        }
+
+        .active,
+        .accordion:hover {
+            background-color: #FF4500;
+        }
+
+        .accordion:after {
+            content: '\002B';
+            color: white;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+
+        .active:after {
+            content: "\2212";
+        }
+
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            <ion-icon name="laptop-outline"></ion-icon>
+                        </span>
+                        <span class="title">MasterDsa</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/adminDashboard">
+                        <span class="icon">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            <ion-icon name="people-outline"></ion-icon>
+                        </span>
+                        <span class="title">Users</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            <ion-icon name="chatbubbles-outline"></ion-icon>
+                        </span>
+                        <span class="title">Message</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            <ion-icon name="help-outline"></ion-icon>
+                        </span>
+                        <span class="title">Help</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            <ion-icon name="settings-outline"></ion-icon>
+                        </span>
+                        <span class="title">Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            <ion-icon name="lock-closed-outline"></ion-icon>
+                        </span>
+                        <span class="title">Password</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            <ion-icon name="log-out-outline"></ion-icon>
+                        </span>
+                        <div onclick="window.location.href = '/admin';">
+                            <span href="/admin" class="title">Sign Out</span>
+                        </div>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+        <!-- Main -->
+
+        <div class='main'>
+            <div class='topbar'>
+                <div class='toggle'>
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+
+                <!-- Search -->
+                <div class='search'>
+                    <label for="">
+                        <input type="text" placeholder="Search here">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </div>
+
+                <!-- User Image -->
+                <div class='user'>
+                    <img src="/image/creator/pranay1.jpg" alt="">
+                </div>
+
+            </div>
+
+            <!---The Cards -->
+            <div class="cardBox">
+
+
+            </div>
+
+            <!--List of orders data-->
+            <div class=''>
+
+                <% for(let i=0;i<locals.data.length;i++){ %>
+                    
+                    <button class="accordion" style="width: 600px; margin-left: 100px; ">Instructor.<%=i+1      %>      <%=       data[i].fullname %></button>
+                    <div class="panel">
+                    <p>
+                        <ul style="margin-left: 100px; list-style: none;">
+                            <li><a href="#" style="color: #FF4500;"><p>Email: <%= data[i].email %></p></a></li>
+                            <li><a href="#" style="color: #FF4500;"><p>Password: <%= data[i].password %></p></a></li>
+                            <li><a href=""><form action="/deluser/<%= data[i]._id %>" method="post">
+                            <button type="button" class="btn btn-secondary">Delete Instructor</button>
+                            </form></a></li>
+                        </ul>
+                    </p>
+                    </div>
+                <% } %> 
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+
+    <script>
+        // Function for menu toggle
+        var toggle = document.querySelector('.toggle');
+        var navigation = document.querySelector('.navigation');
+        var main = document.querySelector('.main');
+
+        toggle.onclick = function () {
+            navigation.classList.toggle('active')
+            main.classList.toggle('active')
+
+
+        }
+
+        // add hovered class in the selected list
+        var list = document.querySelectorAll('.navigation li');
+
+        function activeLink() {
+            list.forEach((item) =>
+                item.classList.remove('hovered'));
+            this.classList.add('hovered')
+        }
+        list.forEach((item) =>
+            item.addEventListener('mouseover'))
+
+    </script>
+
+
+
+
+</body>
+
+</html>
